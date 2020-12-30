@@ -176,12 +176,17 @@ namespace DbsPlugin.Standard.StandardStructures
             PluginConnector.AddControl(controlInfo, textBlock);
         }
 
-        public override void Tick()
+        public override void Initialized()
         {
 
         }
 
-        public override void EditingUserControlShown()
+        public override void Loaded()
+        {
+
+        }
+
+        public override void ControllerShown()
         {
 
         }
