@@ -150,8 +150,8 @@ namespace DbsPlugin.Standard.StandardStructures
 
         private void AddText(XElement element)
         {
-            Brush foreGround = (Brush)new BrushConverter().ConvertFromString((string)element.Attribute("FontColor") ?? "Black");
-            foreGround.Freeze();
+            Brush foreground = (Brush)new BrushConverter().ConvertFromString((string)element.Attribute("FontColor") ?? "Black");
+            foreground.Freeze();
             TextBlock textBlock = new TextBlock()
             {
                 HorizontalAlignment = (HorizontalAlignment)TypeDescriptor.GetConverter(typeof(HorizontalAlignment)).ConvertFromString((string)element.Attribute("Horizontal") ?? "Left"),
@@ -162,7 +162,7 @@ namespace DbsPlugin.Standard.StandardStructures
                 FontSize = (double?)element.Attribute("FontSize") ?? 20.0,
                 FontWeight = (FontWeight)new FontWeightConverter().ConvertFromString((string)element.Attribute("FontWeight") ?? "Regular"),
                 FontStyle = (FontStyle)new FontStyleConverter().ConvertFromString((string)element.Attribute("FontStyle") ?? "Normal"),
-                Foreground = foreGround,
+                Foreground = foreground,
                 Text = (string)element.Attribute("Content") ?? "",
             };
 
