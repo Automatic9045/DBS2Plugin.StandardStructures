@@ -29,12 +29,12 @@ namespace DbsPlugin.Standard.StandardStructures
             PluginConnector = pluginConnector;
         }
 
-        public override void Add(XElement element, string xmlPath)
+        public override void Add(XElement element)
         {
             switch (element.Name.LocalName)
             {
                 case "Image":
-                    AddImage(element, xmlPath);
+                    AddImage(element);
                     break;
                 case "Line":
                     AddLine(element);
@@ -51,7 +51,7 @@ namespace DbsPlugin.Standard.StandardStructures
             }
         }
 
-        private void AddImage(XElement element, string xmlPath)
+        private void AddImage(XElement element)
         {
             Image image = new Image()
             {
@@ -63,11 +63,12 @@ namespace DbsPlugin.Standard.StandardStructures
                 Width = (double?)element.Attribute("Width") ?? 100.0,
                 Height = (double?)element.Attribute("Height") ?? 100.0,
             };
-            string sourcePath = System.IO.Path.Combine(xmlPath, (string)element.Attribute("Source") ?? "");
+            string sourceRelativePath = (string)element.Attribute("Source") ?? "";
+            string sourcePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(PluginConnector.PanelXmlPath), sourceRelativePath);
             string pluginName = this.GetType().Name;
             string type = element.Name.LocalName;
             string name = (string)element.Attribute("Name");
-            if (sourcePath == xmlPath)
+            if (sourceRelativePath is null)
             {
                 PluginConnector.ThrowError("画像のパスが指定されていません。", pluginName, type, name ?? "(名前無し)");
             }
@@ -123,7 +124,7 @@ namespace DbsPlugin.Standard.StandardStructures
         {
             Brush stroke = (Brush)new BrushConverter().ConvertFromString((string)element.Attribute("Stroke") ?? "Black");
             stroke.Freeze();
-            Brush fill = (Brush)new BrushConverter().ConvertFromString((string)element.Attribute("Stroke") ?? "Transparent");
+            Brush fill = (Brush)new BrushConverter().ConvertFromString((string)element.Attribute("Fill") ?? "Transparent");
             fill.Freeze();
             Rectangle rectangle = new Rectangle()
             {
